@@ -5,7 +5,7 @@ var handlebars = require('handlebars');
 var liveDbMongo = require('livedb-mongo');
 var redis = require('redis').createClient();
 var racerBrowserChannel = require('racer-browserchannel');
-var racer = require('../../../racer');
+var racer = require('racer');
 
 redis.select(14);
 var store = racer.createStore({

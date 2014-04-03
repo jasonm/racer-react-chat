@@ -1,3 +1,5 @@
+require('./comp.js');
+
 require('racer').ready(function(model) {
   // model is exposed on the window for convenience in debugging. There is no
   // need to do this normally
