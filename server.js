@@ -26,10 +26,14 @@ app.use(function(err, req, res, next) {
   res.send(500, 'Something broke!');
 });
 
+store.on('bundle', function(bindle) {
+  bindle.transform('reactify');
+});
+
 function scriptBundle(cb) {
   // Use Browserify to generate a script file containing all of the client-side
   // scripts, Racer, and BrowserChannel
-  store.bundle(__dirname + '/client.js', function(err, js) {
+  store.bundle(__dirname + '/client.js', { transform: ['reactify'] }, function(err, js) {
     if (err) return cb(err);
     cb(null, js);
   });

@@ -1,4 +1,5 @@
-require('./comp.js');
+window.React = require('react');
+require('./comp.jsx');
 
 require('racer').ready(function(model) {
   // model is exposed on the window for convenience in debugging. There is no
