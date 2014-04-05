@@ -1,5 +1,8 @@
+console.log(new Date(), "top of client.js");
 window.React = require('react');
+console.log(new Date(), "after react");
 require('./comp.jsx');
+console.log(new Date(), "after jsx");
 
 require('racer').ready(function(model) {
   // model is exposed on the window for convenience in debugging. There is no
@@ -8,6 +11,7 @@ require('racer').ready(function(model) {
   // model.at() scopes all model operations underneath a particular path
   setup(model.at('_page.room'));
 });
+console.log(new Date(), "after racer-ready");
 
 function setup(model) {
   var pad = document.getElementById('pad');
