@@ -87,6 +87,24 @@ var ChatHistory = React.createClass({
         {lineNodes}
       </div>
     );
+  },
+
+  // http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
+  componentWillUpdate: function() {
+    var node = this.getDOMNode();
+    this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+  },
+
+  componentDidUpdate: function() {
+    if (this.shouldScrollBottom) {
+      var node = this.getDOMNode();
+      node.scrollTop = node.scrollHeight;
+    }
+  },
+
+  componentDidMount: function() {
+    var node = this.getDOMNode();
+    node.scrollTop = node.scrollHeight;
   }
 });
 
