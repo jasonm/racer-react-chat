@@ -16,7 +16,7 @@ Model identifiers are generated on the client with [cuid](https://github.com/dil
 Reading
 -------
 
-See [[./public/react-app.jsx]] for the interesting stuff.
+See `./public/react-app.jsx` for the interesting stuff.
 
 Running
 -------
