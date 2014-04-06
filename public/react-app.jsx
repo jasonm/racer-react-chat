@@ -5,20 +5,19 @@
 //
 var ChatApp = React.createClass({
   render: function() {
-    if (!this.state || !this.state.appState) {
+    if (!this.state || !this.state.shared) {
       return (<div>loading...</div>);
     }
 
-    var room = this.state.appState.rooms[1];
+    var room = this.state.shared.rooms[1],
+        currentUser = this.state.local.currentUser;
 
     return (
       <div className="chat-app-view">
         <header>
-          Logged in as: { this.state.localState.currentUser.name }
+          Logged in as: { currentUser.name }
         </header>
-        <ChatRoom appState={this.state.appState}
-                  localState={this.state.localState}
-                  room={room} />
+        <ChatRoom room={room} currentUser={ currentUser } />
       </div>
     );
   }
@@ -30,14 +29,11 @@ var ChatRoom = React.createClass({
       <div className="chat-room-view">
         <div className="topic">Room: {this.props.room.topic}</div>
         <ChatHistory
-          appState={this.props.appState}
-          localState={this.props.localState}
           chats={this.props.room.chats}
           />
         <ChatInput
-          appState={this.props.appState}
-          localState={this.props.localState}
           room={this.props.room}
+          currentUser={this.props.currentUser}
           />
       </div>
     );
@@ -54,22 +50,20 @@ var ChatInput = React.createClass({
 
   postChat: function(text) {
     var roomId = this.props.room.id,
-        userId = this.props.localState.currentUser.id;
+        currentUserId = this.props.currentUser.id;
 
-    update(function() {
-      appModel.add("rooms." + roomId + ".chats", {
-        id: cuid(),
-        userId: userId,
-        text: text,
-        time: new Date()
-      });
+    appModel.add("rooms." + roomId + ".chats", {
+      id: cuid(),
+      userId: currentUserId,
+      text: text,
+      time: new Date()
     });
   },
 
   render: function() {
     return (
       <div className="chat-input-view">
-        <span className="user-name">{ this.props.localState.currentUser.name }:</span>
+        <span className="user-name">{ this.props.currentUser.name }:</span>
         <input onKeyUp={this.onKeyUp} type="text" />
       </div>
     );
@@ -80,9 +74,7 @@ var ChatHistory = React.createClass({
   render: function() {
     var lineNodes = _.sortBy(this.props.chats, function(chat) { return chat.time; }).
                       map(function(chat) {
-                       return (<ChatLine appState={this.props.appState}
-                                         localState={this.props.localState}
-                                         chat={chat}
+                       return (<ChatLine chat={chat}
                                          key={chat.id} />);
                       }.bind(this));
 
@@ -96,7 +88,7 @@ var ChatHistory = React.createClass({
 
 var ChatLine = React.createClass({
   render: function() {
-    var user = this.props.appState.users[this.props.chat.userId];
+    var user = appModel.get().users[this.props.chat.userId];
 
     return (
       <div className="chat-line-view">
@@ -124,19 +116,6 @@ function getQueryParams(qs) {
 }
 
 var query = getQueryParams(document.location.search);
-
-/////////////////////////////////////////////
-// Application state management
-//
-
-var app,
-    appModel,
-    currentUserId = query['userId'] || 1;
-
-function update(mutator) {
-  // single point of change - yagni?
-  mutator();
-}
 
 /////////////////////////////////////////////
 // Fixture data to play with
@@ -167,14 +146,16 @@ function loadFixtureAppState() {
   addChat({ id: cuid(), userId: 1, text: "How are you", time: new Date(new Date() - (4 * 60 * 1000)) });
   addChat({ id: cuid(), userId: 3, text: "Oh hey guys", time: new Date(new Date() - (4 * 60 * 1000)) });
 
-  update(function() {
-    appModel.set(state);
-  });
+  appModel.set(state);
 }
 
 /////////////////////////////////////////////
 // Bootstrap app
 //
+var app,
+    appModel,
+    currentUserId = query['userId'] || 1;
+
 window.racer.ready(function(model) {
   appModel = model.at('_page.chats');
 
@@ -187,19 +168,16 @@ window.racer.ready(function(model) {
     document.getElementById('example')
   );
 
-  var appState = appModel.get(),
-      localState = {
-        currentUser: appState.users[currentUserId]
-      };
-
   app.setState({
-    appState: appState,
-    localState: localState
+    shared: appModel.get(),
+    local: {
+      currentUser: appModel.get().users[currentUserId]
+    }
   });
 
   // We could be more finely-grained, but React's rendering is sufficiently fast and stable for now
   appModel.on("all", "**", function () {
     console.log("appModel event: ", arguments)
-    app.setState({ appState: appModel.get() });
+    app.setState({ shared: appModel.get() });
   });
 });
