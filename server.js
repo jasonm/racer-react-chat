@@ -61,7 +61,6 @@ app.get('/script.js', function(req, res, next) {
   });
 });
 
-
 app.get('/chat', function(req, res, next) {
   var chatTemplate = fs.readFileSync(__dirname + '/chat.handlebars', 'utf-8');
   var chatPage = handlebars.compile(chatTemplate);
@@ -71,52 +70,18 @@ app.get('/chat', function(req, res, next) {
   // that will cause it to render with the data from the initial load first
   res.setHeader('Cache-Control', 'no-store');
 
-  var chatsPath = 'chats.chatsdoc',
-      roomPath = 'rooms.the-chat-room';
-  model.subscribe(chatsPath, roomPath, function(err) {
+  var chatsPath = 'chats.chatsdoc';
+  model.subscribe(chatsPath, function(err) {
     if (err) return next(err);
 
-    model.ref('_page.room', roomPath);
     model.ref('_page.chats', chatsPath);
 
     model.bundle(function(err, bundle) {
       if (err) return next(err);
       var html = chatPage({
-        room: req.params.roomId
-      , text: model.get(roomPath)
         // Escape bundle for use in an HTML attribute in single quotes, since
         // JSON will have lots of double quotes
-      , bundle: JSON.stringify(bundle).replace(/'/g, '&#39;')
-      });
-      res.send(html);
-    });
-  });
-});
-
-app.get('/:roomId', function(req, res, next) {
-  var indexTemplate = fs.readFileSync(__dirname + '/index.handlebars', 'utf-8');
-  var indexPage = handlebars.compile(indexTemplate);
-
-  var model = req.getModel();
-  // Only handle URLs that use alphanumberic characters, underscores, and dashes
-  if (!/^[a-zA-Z0-9_-]+$/.test(req.params.roomId)) return next();
-  // Prevent the browser from storing the HTML response in its back cache, since
-  // that will cause it to render with the data from the initial load first
-  res.setHeader('Cache-Control', 'no-store');
-
-  var roomPath = 'rooms.' + req.params.roomId;
-  model.subscribe(roomPath, function(err) {
-    if (err) return next(err);
-
-    model.ref('_page.room', roomPath);
-    model.bundle(function(err, bundle) {
-      if (err) return next(err);
-      var html = indexPage({
-        room: req.params.roomId
-      , text: model.get(roomPath)
-        // Escape bundle for use in an HTML attribute in single quotes, since
-        // JSON will have lots of double quotes
-      , bundle: JSON.stringify(bundle).replace(/'/g, '&#39;')
+        bundle: JSON.stringify(bundle).replace(/'/g, '&#39;')
       });
       res.send(html);
     });
