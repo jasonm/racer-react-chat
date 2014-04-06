@@ -1,6 +1,27 @@
+What is it?
+-----------
+
 An experiment with Derby's [Racer](http://derbyjs.com/#models) and Facebook
 [React](http://facebook.github.io/react/docs/two-way-binding-helpers.html).
+Super work-in-progress and probably messy.
 
-Views are rendered as pure functions of model state.
+Views are rendered as pure functions of model state.  I would like to work toward an [Om](https://github.com/swannodette/om)-like global state + cursor approach.  This is likely possible using Racer's [paths](http://derbyjs.com/#paths) and [model scopes](http://derbyjs.com/#scoped_models).
 
-Racer syncs underlying models using JSON-OT to resolve conflicts in the face of latency and even connectivity loss.
+Racer syncs underlying models using [JSON-OT](https://github.com/share/ottypes/wiki/JSON-operations) to resolve conflicts in the face of latency and even connectivity loss.
+
+Racer's default communication layer uses [Google BrowserChannel](http://closure-library.googlecode.com/svn-history/r144/docs/closure_goog_net_browserchannel.js.html) which uses XHR, so I added [SPDY](http://en.wikipedia.org/wiki/SPDY) so they are pipelined TO THE MAX.  (Unclear if this actually provides a benefit above HTTP/1.1 pipelining; I did zero benchmarking).
+
+Model identifiers are generated on the client with [cuid](https://github.com/dilvie/cuid).
+
+Reading
+-------
+
+See [[./public/react-app.jsx]] for the interesting stuff.
+
+Running
+-------
+
+```
+npm install
+node server.js
+```
