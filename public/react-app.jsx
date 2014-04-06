@@ -5,17 +5,17 @@
 //
 var ChatApp = React.createClass({
   render: function() {
-    if (!this.state || !this.state.shared) {
+    if (!this.state || !this.state.model) {
       return (<div>loading...</div>);
     }
 
-    var room = this.state.shared.rooms[1],
-        currentUser = this.state.local.currentUser;
+    var room = this.state.model.at('rooms.1'),
+        currentUser = this.state.model.at('users.' + this.state.local.currentUserId);
 
     return (
       <div className="chat-app-view">
         <header>
-          Logged in as: { currentUser.name }
+          Logged in as: { currentUser.get('name') }
         </header>
         <ChatRoom room={room} currentUser={ currentUser } />
       </div>
@@ -27,9 +27,9 @@ var ChatRoom = React.createClass({
   render: function() {
     return (
       <div className="chat-room-view">
-        <div className="topic">Room: {this.props.room.topic}</div>
+        <div className="topic">Room: {this.props.room.get('topic')}</div>
         <ChatHistory
-          chats={this.props.room.chats}
+          chats={this.props.room.at('chats')}
           />
         <ChatInput
           room={this.props.room}
@@ -49,8 +49,8 @@ var ChatInput = React.createClass({
   },
 
   postChat: function(text) {
-    var roomId = this.props.room.id,
-        currentUserId = this.props.currentUser.id;
+    var roomId = this.props.room.get('id'),
+        currentUserId = this.props.currentUser.get('id');
 
     appModel.add("rooms." + roomId + ".chats", {
       id: cuid(),
@@ -63,7 +63,7 @@ var ChatInput = React.createClass({
   render: function() {
     return (
       <div className="chat-input-view">
-        <span className="user-name">{ this.props.currentUser.name }:</span>
+        <span className="user-name">{ this.props.currentUser.get("name") }:</span>
         <input onKeyUp={this.onKeyUp} type="text" />
       </div>
     );
@@ -72,11 +72,15 @@ var ChatInput = React.createClass({
 
 var ChatHistory = React.createClass({
   render: function() {
-    var lineNodes = _.sortBy(this.props.chats, function(chat) { return chat.time; }).
+    // Note the distinction between Racer scoped models (the usual)
+    // and deref'd chatAttributes hashes.
+    var lineNodes = _.chain(this.props.chats.get()).
+                      sortBy(function(chatAttributes) { return chatAttributes.time; }).
+                      map(function(chatAttributes) { return this.props.chats.at(chatAttributes.id); }.bind(this)).
                       map(function(chat) {
-                       return (<ChatLine chat={chat}
-                                         key={chat.id} />);
-                      }.bind(this));
+                       return (<ChatLine chat={chat} key={chat.get('id')} />);
+                      }).
+                      value();
 
     return (
       <div className="chat-history-view">
@@ -88,12 +92,13 @@ var ChatHistory = React.createClass({
 
 var ChatLine = React.createClass({
   render: function() {
-    var user = appModel.get().users[this.props.chat.userId];
+    // TODO can this be improved by hydrating the JSON model with Racer refs, BBR-style?
+    var user = appModel.at('users.' + this.props.chat.get('userId'));
 
     return (
       <div className="chat-line-view">
-        <span className="name">{ user.name }: </span>
-        <span className="chat">{ this.props.chat.text }</span>
+        <span className="name">{ user.get('name') }: </span>
+        <span className="chat">{ this.props.chat.get('text') }</span>
       </div>
     );
   }
@@ -169,15 +174,15 @@ window.racer.ready(function(model) {
   );
 
   app.setState({
-    shared: appModel.get(),
+    model: appModel,
     local: {
-      currentUser: appModel.get().users[currentUserId]
+      currentUserId: currentUserId
     }
   });
 
   // We could be more finely-grained, but React's rendering is sufficiently fast and stable for now
   appModel.on("all", "**", function () {
     console.log("appModel event: ", arguments)
-    app.setState({ shared: appModel.get() });
+    app.setState({ model: appModel });
   });
 });
