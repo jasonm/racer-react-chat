@@ -4,13 +4,28 @@ var http = require('http');
 var express = require('express');
 var handlebars = require('handlebars');
 var liveDbMongo = require('livedb-mongo');
-var redis = require('redis').createClient();
+var redis;
+var liveDb;
+
+console.log("connecting to redis", process.env.REDISCLOUD_URL);
+if (process.env.REDISCLOUD_URL) {
+  redis = require('redis-url').connect(process.env.REDISCLOUD_URL);
+} else {
+  redis = require('redis').createClient();
+}
+
+if (process.env.MONGOHQ_URL) {
+  liveDb = liveDbMongo(process.env.MONGOHQ_URL + '?auto_reconnect', {safe: true})
+} else {
+  liveDb = liveDbMongo('mongo://localhost:27017/racer-pad?auto_reconnect', {safe: true})
+}
+
 var racerBrowserChannel = require('racer-browserchannel');
 var racer = require('racer');
 
 redis.select(14);
 var store = racer.createStore({
-  db: liveDbMongo('localhost:27017/racer-pad?auto_reconnect', {safe: true})
+  db: liveDb
 , redis: redis
 });
 
@@ -99,9 +114,14 @@ var options = {
 };
 
 var port = process.env.PORT || 3000;
-var server = spdy.createServer(options, app).listen(port, function() {
-  console.log('Go to [SPDY] https://localhost:' + port);
-});
-// var server = http.createServer(app).listen(port, function() {
-//   console.log('Go to http://localhost:' + port);
-// });
+
+if (process.env.NODE_ENV === 'production') {
+  // heroku has no spdy
+  var server = http.createServer(app).listen(port, function() {
+    console.log('Go to http://localhost:' + port);
+  });
+} else {
+  var server = spdy.createServer(options, app).listen(port, function() {
+    console.log('Go to [SPDY] https://localhost:' + port);
+  });
+}

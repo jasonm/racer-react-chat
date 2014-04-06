@@ -5,20 +5,17 @@
   "main": "./server.js",
   "dependencies": {
     "racer": "0.5.14",
-
     "express": "~3.2.3",
     "handlebars": "~1.0.10",
     "racer-browserchannel": "~0.1.0",
     "livedb-mongo": "~0.3.0",
     "redis": "~0.8.3",
-
     "react": "~0.10.0",
     "reactify": "~0.10.0",
     "racer-websocket": "git://github.com/codeparty/racer-websocket.git#master",
-
     "cuid": "1.2.1",
-
-    "spdy": "1.25.0"
+    "spdy": "1.25.0",
+    "redis-url": "~0.2.0"
   },
   "private": true
 }
