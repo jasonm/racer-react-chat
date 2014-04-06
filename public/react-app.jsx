@@ -1,26 +1,25 @@
 /** @jsx React.DOM */
 
-// var HelloWorld = React.createClass({
-//   render: function() {
-//     return (
-//       <p>
-//       West, <input type="text" placeholder="Your name here" />!
-//       It is {this.props.date.toTimeString()}
-//       </p>
-//       );
-//   }
-// });
-
-var updateImm, update;
-
+/////////////////////////////////////////////
+// React components
+//
 var ChatApp = React.createClass({
   render: function() {
-    var room = this.props.appState.rooms[1];
+    if (!this.state || !this.state.appState) {
+      return (<div>loading...</div>);
+    }
+
+    var room = this.state.appState.rooms[1];
 
     return (
-      <ChatRoom appState={this.props.appState}
-                localState={this.props.localState}
-                room={room} />
+      <div className="chat-app-view">
+        <header>
+          Logged in as: { this.state.localState.currentUser.name }
+        </header>
+        <ChatRoom appState={this.state.appState}
+                  localState={this.state.localState}
+                  room={room} />
+      </div>
     );
   }
 });
@@ -64,6 +63,8 @@ var ChatInput = React.createClass({
         text: text,
         time: new Date()
       });
+
+      return state;
     }.bind(this));
   },
 
@@ -71,7 +72,7 @@ var ChatInput = React.createClass({
     return (
       <div className="chat-input-view">
         <span className="user-name">{ this.props.localState.currentUser.name }:</span>
-        <input onKeyUp={this.onKeyUp} type="text" placeholder="Chat message" />
+        <input onKeyUp={this.onKeyUp} type="text" />
       </div>
     );
   }
@@ -108,43 +109,87 @@ var ChatLine = React.createClass({
 });
 
 /////////////////////////////////////////////
-var appState = {};
+// QueryString
+//
+function getQueryParams(qs) {
+  qs = qs.split("+").join(" ");
 
-appState.rooms = {
-  1: {
-    id: 1,
-    topic: "foo",
-    chats: [
-      { id: 1, userId: 1, text: "Hi there",    time: new Date(new Date() - (4 * 60 * 1000)) },
-      { id: 2, userId: 2, text: "Well hello",  time: new Date(new Date() - (3 * 60 * 1000)) },
-      { id: 3, userId: 1, text: "How are you", time: new Date(new Date() - (2 * 60 * 1000)) },
-      { id: 4, userId: 3, text: "Oh hey guys", time: new Date(new Date() - (1 * 60 * 1000)) },
-    ]
+  var params = {}, tokens,
+      re = /[?&]?([^=]+)=([^&]*)/g;
+
+  while (tokens = re.exec(qs)) {
+    params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
   }
+
+  return params;
 }
 
-appState.users = {
-  1: { id: 1, name: "Alice" },
-  2: { id: 2, name: "Bob" },
-  3: { id: 3, name: "Cecilia" }
+var query = getQueryParams(document.location.search);
+
+/////////////////////////////////////////////
+// Application state management
+//
+
+// var app,
+var appModel,
+    currentUserId = query['userId'] || 1;
+
+function update(mutator) {
+  var newState = mutator(appModel.get());
+  appModel.set(newState);
 }
 
-var localState = {};
+function loadFixtureAppState() {
+  appModel.set({
+    rooms: {
+      1: {
+        id: 1,
+        topic: "foo",
+        chats: [
+          { id: 1, userId: 1, text: "Hi there",    time: new Date(new Date() - (4 * 60 * 1000)) },
+          { id: 2, userId: 2, text: "Well hello",  time: new Date(new Date() - (3 * 60 * 1000)) },
+          { id: 3, userId: 1, text: "How are you", time: new Date(new Date() - (2 * 60 * 1000)) },
+          { id: 4, userId: 3, text: "Oh hey guys", time: new Date(new Date() - (1 * 60 * 1000)) },
+        ]
+      }
+    },
 
-localState.currentUser = appState.users[1];
+    users: {
+      1: { id: 1, name: "Alice" },
+      2: { id: 2, name: "Bob" },
+      3: { id: 3, name: "Cecilia" }
+    }
+  });
+}
 
-var app = React.renderComponent(
-  <ChatApp appState={appState} localState={localState} />,
-  document.getElementById('example')
-);
+/////////////////////////////////////////////
+// Bootstrap app
+//
+window.racer.ready(function(model) {
+  appModel = model.at('_page.chats');
 
-// updateImm = function(applier) {
-//   var newAppState = applier(appState);
-//   app.setState({ appState: newAppState });
-//   appState = newAppState;
-// };
+  if (!appModel.get()) {
+    loadFixtureAppState();
+  }
 
-update = function(mutator) {
-  mutator(appState);
-  app.setState({ appState: appState });
-};
+  var app = React.renderComponent(
+    <ChatApp />,
+    document.getElementById('example')
+  );
+
+  var appState = appModel.get(),
+      localState = {
+        currentUser: appState.users[currentUserId]
+      };
+
+  app.setState({
+    appState: appState,
+    localState: localState
+  });
+
+  appModel.on('change', function(newState) {
+    app.setState({
+      appState: newState,
+    });
+  });
+});

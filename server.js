@@ -71,15 +71,22 @@ app.get('/chat', function(req, res, next) {
   // that will cause it to render with the data from the initial load first
   res.setHeader('Cache-Control', 'no-store');
 
-  var dataPath = 'chatrooms';
-  model.subscribe(dataPath, function(err) {
+  var chatsPath = 'chats.chatsdoc',
+      roomPath = 'rooms.the-chat-room';
+  model.subscribe(chatsPath, roomPath, function(err) {
     if (err) return next(err);
 
-    model.ref('_page.data', dataPath);
+    model.ref('_page.room', roomPath);
+    model.ref('_page.chats', chatsPath);
+
     model.bundle(function(err, bundle) {
       if (err) return next(err);
       var html = chatPage({
-        bundle: JSON.stringify(bundle).replace(/'/g, '&#39;')
+        room: req.params.roomId
+      , text: model.get(roomPath)
+        // Escape bundle for use in an HTML attribute in single quotes, since
+        // JSON will have lots of double quotes
+      , bundle: JSON.stringify(bundle).replace(/'/g, '&#39;')
       });
       res.send(html);
     });
@@ -128,7 +135,7 @@ var options = {
 
 var port = process.env.PORT || 3000;
 var server = spdy.createServer(options, app).listen(port, function() {
-  console.log('Go to https://localhost:' + port);
+  console.log('Go to [SPDY] https://localhost:' + port);
 });
 // var server = http.createServer(app).listen(port, function() {
 //   console.log('Go to http://localhost:' + port);
