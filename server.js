@@ -20,20 +20,22 @@ app
   .use(racerBrowserChannel(store))
   .use(store.modelMiddleware())
   .use(app.router)
+  .use(express.static('public'))
 
 app.use(function(err, req, res, next) {
   console.error(err.stack || (new Error(err)).stack);
   res.send(500, 'Something broke!');
 });
 
-store.on('bundle', function(bindle) {
-  bindle.transform('reactify');
-});
-
+// store.on('bundle', function(bindle) {
+//   bindle.transform('reactify');
+// });
+// 
 function scriptBundle(cb) {
   // Use Browserify to generate a script file containing all of the client-side
   // scripts, Racer, and BrowserChannel
-  store.bundle(__dirname + '/client.js', { transform: ['reactify'] }, function(err, js) {
+  store.bundle(__dirname + '/client.js', function(err, js) {
+  // store.bundle(__dirname + '/client.js', { transform: ['reactify'] }, function(err, js) {
     if (err) return cb(err);
     cb(null, js);
   });
@@ -58,10 +60,35 @@ app.get('/script.js', function(req, res, next) {
   });
 });
 
-var indexTemplate = fs.readFileSync(__dirname + '/index.handlebars', 'utf-8');
-var indexPage = handlebars.compile(indexTemplate);
+
+app.get('/chat', function(req, res, next) {
+  var chatTemplate = fs.readFileSync(__dirname + '/chat.handlebars', 'utf-8');
+  var chatPage = handlebars.compile(chatTemplate);
+
+  var model = req.getModel();
+  // Prevent the browser from storing the HTML response in its back cache, since
+  // that will cause it to render with the data from the initial load first
+  res.setHeader('Cache-Control', 'no-store');
+
+  var dataPath = 'chatrooms';
+  model.subscribe(dataPath, function(err) {
+    if (err) return next(err);
+
+    model.ref('_page.data', dataPath);
+    model.bundle(function(err, bundle) {
+      if (err) return next(err);
+      var html = chatPage({
+        bundle: JSON.stringify(bundle).replace(/'/g, '&#39;')
+      });
+      res.send(html);
+    });
+  });
+});
 
 app.get('/:roomId', function(req, res, next) {
+  var indexTemplate = fs.readFileSync(__dirname + '/index.handlebars', 'utf-8');
+  var indexPage = handlebars.compile(indexTemplate);
+
   var model = req.getModel();
   // Only handle URLs that use alphanumberic characters, underscores, and dashes
   if (!/^[a-zA-Z0-9_-]+$/.test(req.params.roomId)) return next();
@@ -89,7 +116,7 @@ app.get('/:roomId', function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.redirect('/home');
+  res.redirect('/chat');
 });
 
 var port = process.env.PORT || 3000;

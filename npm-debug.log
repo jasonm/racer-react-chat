@@ -1,0 +1,243 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/Users/jason/.nvm/v0.10.25/bin/npm', 'install' ]
+2 info using npm@1.3.25
+3 info using node@v0.10.25
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ '/Users/jason/dev/racer-tests/pad-react',
+5 verbose install   [ 'racer',
+5 verbose install     'express',
+5 verbose install     'handlebars',
+5 verbose install     'racer-browserchannel',
+5 verbose install     'livedb-mongo',
+5 verbose install     'redis',
+5 verbose install     'react',
+5 verbose install     'reactify',
+5 verbose install     'racer-websocket',
+5 verbose install     'cuid',
+5 verbose install     'node-spdy' ] ]
+6 info preinstall racer-pad-react@0.0.0
+7 verbose readDependencies using package.json deps
+8 verbose already installed skipping livedb-mongo@~0.3.0 /Users/jason/dev/racer-tests/pad-react
+9 verbose already installed skipping redis@~0.8.3 /Users/jason/dev/racer-tests/pad-react
+10 verbose already installed skipping react@~0.10.0 /Users/jason/dev/racer-tests/pad-react
+11 verbose already installed skipping reactify@~0.10.0 /Users/jason/dev/racer-tests/pad-react
+12 verbose cache add [ 'racer-websocket@git://github.com/codeparty/racer-websocket.git#master',
+12 verbose cache add   null ]
+13 verbose cache add name=undefined spec="racer-websocket@git://github.com/codeparty/racer-websocket.git#master" args=["racer-websocket@git://github.com/codeparty/racer-websocket.git#master",null]
+14 verbose parsed url { protocol: null,
+14 verbose parsed url   slashes: null,
+14 verbose parsed url   auth: null,
+14 verbose parsed url   host: null,
+14 verbose parsed url   port: null,
+14 verbose parsed url   hostname: null,
+14 verbose parsed url   hash: '#master',
+14 verbose parsed url   search: null,
+14 verbose parsed url   query: null,
+14 verbose parsed url   pathname: 'racer-websocket@git://github.com/codeparty/racer-websocket.git',
+14 verbose parsed url   path: 'racer-websocket@git://github.com/codeparty/racer-websocket.git',
+14 verbose parsed url   href: 'racer-websocket@git://github.com/codeparty/racer-websocket.git#master' }
+15 verbose cache add name="racer-websocket" spec="git://github.com/codeparty/racer-websocket.git#master" args=["racer-websocket","git://github.com/codeparty/racer-websocket.git#master"]
+16 verbose parsed url { protocol: 'git:',
+16 verbose parsed url   slashes: true,
+16 verbose parsed url   auth: null,
+16 verbose parsed url   host: 'github.com',
+16 verbose parsed url   port: null,
+16 verbose parsed url   hostname: 'github.com',
+16 verbose parsed url   hash: '#master',
+16 verbose parsed url   search: null,
+16 verbose parsed url   query: null,
+16 verbose parsed url   pathname: '/codeparty/racer-websocket.git',
+16 verbose parsed url   path: '/codeparty/racer-websocket.git',
+16 verbose parsed url   href: 'git://github.com/codeparty/racer-websocket.git#master' }
+17 verbose cache add [ 'cuid@1.2.1', null ]
+18 verbose cache add name=undefined spec="cuid@1.2.1" args=["cuid@1.2.1",null]
+19 verbose parsed url { protocol: null,
+19 verbose parsed url   slashes: null,
+19 verbose parsed url   auth: null,
+19 verbose parsed url   host: null,
+19 verbose parsed url   port: null,
+19 verbose parsed url   hostname: null,
+19 verbose parsed url   hash: null,
+19 verbose parsed url   search: null,
+19 verbose parsed url   query: null,
+19 verbose parsed url   pathname: 'cuid@1.2.1',
+19 verbose parsed url   path: 'cuid@1.2.1',
+19 verbose parsed url   href: 'cuid@1.2.1' }
+20 verbose cache add name="cuid" spec="1.2.1" args=["cuid","1.2.1"]
+21 verbose parsed url { protocol: null,
+21 verbose parsed url   slashes: null,
+21 verbose parsed url   auth: null,
+21 verbose parsed url   host: null,
+21 verbose parsed url   port: null,
+21 verbose parsed url   hostname: null,
+21 verbose parsed url   hash: null,
+21 verbose parsed url   search: null,
+21 verbose parsed url   query: null,
+21 verbose parsed url   pathname: '1.2.1',
+21 verbose parsed url   path: '1.2.1',
+21 verbose parsed url   href: '1.2.1' }
+22 verbose addNamed [ 'cuid', '1.2.1' ]
+23 verbose addNamed [ '1.2.1', '1.2.1' ]
+24 silly lockFile 917b2cec-party-racer-websocket-git-master git://github.com/codeparty/racer-websocket.git#master
+25 verbose lock git://github.com/codeparty/racer-websocket.git#master /Users/jason/.npm/917b2cec-party-racer-websocket-git-master.lock
+26 verbose cache add [ 'node-spdy@1.25.0', null ]
+27 verbose cache add name=undefined spec="node-spdy@1.25.0" args=["node-spdy@1.25.0",null]
+28 verbose parsed url { protocol: null,
+28 verbose parsed url   slashes: null,
+28 verbose parsed url   auth: null,
+28 verbose parsed url   host: null,
+28 verbose parsed url   port: null,
+28 verbose parsed url   hostname: null,
+28 verbose parsed url   hash: null,
+28 verbose parsed url   search: null,
+28 verbose parsed url   query: null,
+28 verbose parsed url   pathname: 'node-spdy@1.25.0',
+28 verbose parsed url   path: 'node-spdy@1.25.0',
+28 verbose parsed url   href: 'node-spdy@1.25.0' }
+29 verbose cache add name="node-spdy" spec="1.25.0" args=["node-spdy","1.25.0"]
+30 verbose parsed url { protocol: null,
+30 verbose parsed url   slashes: null,
+30 verbose parsed url   auth: null,
+30 verbose parsed url   host: null,
+30 verbose parsed url   port: null,
+30 verbose parsed url   hostname: null,
+30 verbose parsed url   hash: null,
+30 verbose parsed url   search: null,
+30 verbose parsed url   query: null,
+30 verbose parsed url   pathname: '1.25.0',
+30 verbose parsed url   path: '1.25.0',
+30 verbose parsed url   href: '1.25.0' }
+31 verbose addNamed [ 'node-spdy', '1.25.0' ]
+32 verbose addNamed [ '1.25.0', '1.25.0' ]
+33 silly lockFile e5340b00-node-spdy-1-25-0 node-spdy@1.25.0
+34 verbose lock node-spdy@1.25.0 /Users/jason/.npm/e5340b00-node-spdy-1-25-0.lock
+35 silly lockFile b338a174-cuid-1-2-1 cuid@1.2.1
+36 verbose lock cuid@1.2.1 /Users/jason/.npm/b338a174-cuid-1-2-1.lock
+37 verbose already installed skipping racer-browserchannel@~0.1.0 /Users/jason/dev/racer-tests/pad-react
+38 verbose addRemoteGit [ 'git://github.com/codeparty/racer-websocket.git', 'master' ]
+39 verbose already installed skipping racer@0.5.14 /Users/jason/dev/racer-tests/pad-react
+40 verbose url raw node-spdy/1.25.0
+41 verbose url resolving [ 'https://registry.npmjs.org/', './node-spdy/1.25.0' ]
+42 verbose url resolved https://registry.npmjs.org/node-spdy/1.25.0
+43 info trying registry request attempt 1 at 20:18:21
+44 http GET https://registry.npmjs.org/node-spdy/1.25.0
+45 verbose url raw cuid/1.2.1
+46 verbose url resolving [ 'https://registry.npmjs.org/', './cuid/1.2.1' ]
+47 verbose url resolved https://registry.npmjs.org/cuid/1.2.1
+48 info trying registry request attempt 1 at 20:18:21
+49 http GET https://registry.npmjs.org/cuid/1.2.1
+50 verbose already installed skipping express@~3.2.3 /Users/jason/dev/racer-tests/pad-react
+51 verbose already installed skipping handlebars@~1.0.10 /Users/jason/dev/racer-tests/pad-react
+52 verbose git remote.origin.url git://github.com/codeparty/racer-websocket.git
+53 verbose git fetch -a origin (git://github.com/codeparty/racer-websocket.git)
+54 verbose git rev-list -n1 master 5bbb6e19d2c4c92f4cf73053152284eb30551f8a
+55 verbose resolved git url git://github.com/codeparty/racer-websocket.git#5bbb6e19d2c4c92f4cf73053152284eb30551f8a
+56 verbose tar unpack /var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/tmp.tgz
+57 silly lockFile 1ded18c5-4301540-0-60841507720761-package tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package
+58 verbose lock tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package /Users/jason/.npm/1ded18c5-4301540-0-60841507720761-package.lock
+59 silly lockFile 1d56e70b-4301540-0-60841507720761-tmp-tgz tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/tmp.tgz
+60 verbose lock tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/tmp.tgz /Users/jason/.npm/1d56e70b-4301540-0-60841507720761-tmp-tgz.lock
+61 silly gunzTarPerm modes [ '755', '644' ]
+62 silly gunzTarPerm extractEntry
+63 silly gunzTarPerm modified mode [ '', 509, 493 ]
+64 silly gunzTarPerm extractEntry .gitignore
+65 silly gunzTarPerm modified mode [ '.gitignore', 436, 420 ]
+66 silly gunzTarPerm extractEntry README.md
+67 silly gunzTarPerm modified mode [ 'README.md', 436, 420 ]
+68 silly gunzTarPerm extractEntry lib/
+69 silly gunzTarPerm modified mode [ 'lib/', 509, 493 ]
+70 silly gunzTarPerm extractEntry lib/browser.js
+71 silly gunzTarPerm modified mode [ 'lib/browser.js', 436, 420 ]
+72 silly gunzTarPerm extractEntry lib/server.js
+73 silly gunzTarPerm modified mode [ 'lib/server.js', 436, 420 ]
+74 silly gunzTarPerm extractEntry package.json
+75 silly gunzTarPerm modified mode [ 'package.json', 436, 420 ]
+76 silly lockFile 1ded18c5-4301540-0-60841507720761-package tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package
+77 silly lockFile 1ded18c5-4301540-0-60841507720761-package tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package
+78 silly lockFile 1d56e70b-4301540-0-60841507720761-tmp-tgz tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/tmp.tgz
+79 silly lockFile 1d56e70b-4301540-0-60841507720761-tmp-tgz tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/tmp.tgz
+80 verbose tar pack [ '/Users/jason/.npm/racer-websocket/0.1.1/package.tgz',
+80 verbose tar pack   '/var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package' ]
+81 verbose tarball /Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+82 verbose folder /var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package
+83 silly lockFile 1ded18c5-4301540-0-60841507720761-package tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package
+84 verbose lock tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package /Users/jason/.npm/1ded18c5-4301540-0-60841507720761-package.lock
+85 silly lockFile aa553bdb-acer-websocket-0-1-1-package-tgz tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+86 verbose lock tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz /Users/jason/.npm/aa553bdb-acer-websocket-0-1-1-package-tgz.lock
+87 silly lockFile 1ded18c5-4301540-0-60841507720761-package tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package
+88 silly lockFile 1ded18c5-4301540-0-60841507720761-package tar:///var/folders/vl/jlkdrhtx6_xgzbrm7vx2nmrm0000gn/T/npm-36715-DhU2GE2f/1396754301540-0.60841507720761/package
+89 silly lockFile aa553bdb-acer-websocket-0-1-1-package-tgz tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+90 silly lockFile aa553bdb-acer-websocket-0-1-1-package-tgz tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+91 silly lockFile a71445a7-pm-racer-websocket-0-1-1-package /Users/jason/.npm/racer-websocket/0.1.1/package
+92 verbose lock /Users/jason/.npm/racer-websocket/0.1.1/package /Users/jason/.npm/a71445a7-pm-racer-websocket-0-1-1-package.lock
+93 silly lockFile a71445a7-pm-racer-websocket-0-1-1-package /Users/jason/.npm/racer-websocket/0.1.1/package
+94 silly lockFile a71445a7-pm-racer-websocket-0-1-1-package /Users/jason/.npm/racer-websocket/0.1.1/package
+95 verbose tar unpack /Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+96 silly lockFile 896e0fa3-pm-racer-websocket-0-1-1-package tar:///Users/jason/.npm/racer-websocket/0.1.1/package
+97 verbose lock tar:///Users/jason/.npm/racer-websocket/0.1.1/package /Users/jason/.npm/896e0fa3-pm-racer-websocket-0-1-1-package.lock
+98 silly lockFile aa553bdb-acer-websocket-0-1-1-package-tgz tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+99 verbose lock tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz /Users/jason/.npm/aa553bdb-acer-websocket-0-1-1-package-tgz.lock
+100 silly gunzTarPerm modes [ '755', '644' ]
+101 silly gunzTarPerm extractEntry package.json
+102 silly gunzTarPerm extractEntry .npmignore
+103 silly gunzTarPerm extractEntry README.md
+104 silly gunzTarPerm extractEntry lib/browser.js
+105 silly gunzTarPerm extractEntry lib/server.js
+106 silly lockFile 896e0fa3-pm-racer-websocket-0-1-1-package tar:///Users/jason/.npm/racer-websocket/0.1.1/package
+107 silly lockFile 896e0fa3-pm-racer-websocket-0-1-1-package tar:///Users/jason/.npm/racer-websocket/0.1.1/package
+108 silly lockFile aa553bdb-acer-websocket-0-1-1-package-tgz tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+109 silly lockFile aa553bdb-acer-websocket-0-1-1-package-tgz tar:///Users/jason/.npm/racer-websocket/0.1.1/package.tgz
+110 verbose chmod /Users/jason/.npm/racer-websocket/0.1.1/package.tgz 644
+111 verbose chown /Users/jason/.npm/racer-websocket/0.1.1/package.tgz [ 501, 20 ]
+112 silly lockFile 401a6e17-om-codeparty-racer-websocket-git git://github.com/codeparty/racer-websocket.git
+113 http 200 https://registry.npmjs.org/cuid/1.2.1
+114 silly registry.get cb [ 200,
+114 silly registry.get   { date: 'Sun, 06 Apr 2014 03:18:13 GMT',
+114 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+114 silly registry.get     etag: '"22BPHEHFISQF4H1PCH88HUOWI"',
+114 silly registry.get     'content-type': 'application/json',
+114 silly registry.get     via: '1.1 varnish',
+114 silly registry.get     'cache-control': 'max-age=1',
+114 silly registry.get     'content-length': '12604',
+114 silly registry.get     'accept-ranges': 'bytes',
+114 silly registry.get     age: '0',
+114 silly registry.get     'x-served-by': 'cache-v37-ASH, cache-lax1428-LAX',
+114 silly registry.get     'x-cache': 'MISS, MISS',
+114 silly registry.get     'x-cache-hits': '0, 0',
+114 silly registry.get     'x-timer': 'S1396754293.363019943,VS0,VS33,VE374,VE406',
+114 silly registry.get     vary: 'Accept',
+114 silly registry.get     'keep-alive': 'timeout=10, max=50',
+114 silly registry.get     connection: 'Keep-Alive' } ]
+115 http 404 https://registry.npmjs.org/node-spdy/1.25.0
+116 silly registry.get cb [ 404,
+116 silly registry.get   { date: 'Sun, 06 Apr 2014 03:18:13 GMT',
+116 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+116 silly registry.get     'content-type': 'application/json',
+116 silly registry.get     via: '1.1 varnish',
+116 silly registry.get     'cache-control': 'max-age=0',
+116 silly registry.get     'content-length': '52',
+116 silly registry.get     'accept-ranges': 'bytes',
+116 silly registry.get     age: '0',
+116 silly registry.get     'x-served-by': 'cache-v37-ASH, cache-lax1435-LAX',
+116 silly registry.get     'x-cache': 'MISS, MISS',
+116 silly registry.get     'x-cache-hits': '0, 0',
+116 silly registry.get     'x-timer': 'S1396754293.364460230,VS0,VS32,VE398,VE431',
+116 silly registry.get     'keep-alive': 'timeout=10, max=50',
+116 silly registry.get     connection: 'Keep-Alive' } ]
+117 silly lockFile e5340b00-node-spdy-1-25-0 node-spdy@1.25.0
+118 silly lockFile e5340b00-node-spdy-1-25-0 node-spdy@1.25.0
+119 error 404 'node-spdy' is not in the npm registry.
+119 error 404 You should bug the author to publish it
+119 error 404 It was specified as a dependency of 'racer-pad-react'
+119 error 404
+119 error 404 Maybe try 'npm search spdy'
+119 error 404
+119 error 404 Note that you can also install from a
+119 error 404 tarball, folder, or http url, or git url.
+120 error System Darwin 13.1.0
+121 error command "node" "/Users/jason/.nvm/v0.10.25/bin/npm" "install"
+122 error cwd /Users/jason/dev/racer-tests/pad-react
+123 error node -v v0.10.25
+124 error npm -v 1.3.25
+125 error code E404
+126 verbose exit [ 1, true ]
