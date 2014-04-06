@@ -1,4 +1,5 @@
 var fs = require('fs');
+var spdy = require('spdy');
 var http = require('http');
 var express = require('express');
 var handlebars = require('handlebars');
@@ -119,7 +120,16 @@ app.get('/', function(req, res) {
   res.redirect('/chat');
 });
 
+var options = {
+  key: fs.readFileSync('keys/server.key'),
+  cert: fs.readFileSync('keys/server.crt'),
+  ca: fs.readFileSync('keys/server.csr')
+};
+
 var port = process.env.PORT || 3000;
-http.createServer(app).listen(port, function() {
-  console.log('Go to http://localhost:' + port);
+var server = spdy.createServer(options, app).listen(port, function() {
+  console.log('Go to https://localhost:' + port);
 });
+// var server = http.createServer(app).listen(port, function() {
+//   console.log('Go to http://localhost:' + port);
+// });

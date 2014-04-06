@@ -16,7 +16,9 @@
     "reactify": "~0.10.0",
     "racer-websocket": "git://github.com/codeparty/racer-websocket.git#master",
 
-    "cuid": "1.2.1"
+    "cuid": "1.2.1",
+
+    "spdy": "1.25.0"
   },
   "private": true
 }
