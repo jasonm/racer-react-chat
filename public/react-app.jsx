@@ -75,7 +75,7 @@ var ChatHistory = React.createClass({
     // Note the distinction between Racer scoped models (the usual)
     // and deref'd chatAttributes hashes.
     var lineNodes = _.chain(this.props.chats.get()).
-                      sortBy(function(chatAttributes) { return chatAttributes.time; }).
+                      sortBy(function(chatAttributes) { return new Date(chatAttributes.time); }).
                       map(function(chatAttributes) { return this.props.chats.at(chatAttributes.id); }.bind(this)).
                       map(function(chat) {
                        return (<ChatLine chat={chat} key={chat.get('id')} />);
