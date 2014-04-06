@@ -56,16 +56,14 @@ var ChatInput = React.createClass({
     var roomId = this.props.room.id,
         userId = this.props.localState.currentUser.id;
 
-    update(function(state) {
-      state.rooms[roomId].chats.push({
-        id: state.rooms[roomId].chats.length + 1,
+    update(function() {
+      appModel.add("rooms." + roomId + ".chats", {
+        id: cuid(),
         userId: userId,
         text: text,
         time: new Date()
       });
-
-      return state;
-    }.bind(this));
+    });
   },
 
   render: function() {
@@ -80,12 +78,13 @@ var ChatInput = React.createClass({
 
 var ChatHistory = React.createClass({
   render: function() {
-    var lineNodes = this.props.chats.map(function(message) {
-      return <ChatLine appState={this.props.appState}
-                       localState={this.props.localState}
-                       message={message}
-                       key={message.id} />;
-    }.bind(this));
+    var lineNodes = _.sortBy(this.props.chats, function(chat) { return chat.time; }).
+                      map(function(chat) {
+                       return (<ChatLine appState={this.props.appState}
+                                         localState={this.props.localState}
+                                         chat={chat}
+                                         key={chat.id} />);
+                      }.bind(this));
 
     return (
       <div className="chat-history-view">
@@ -97,12 +96,12 @@ var ChatHistory = React.createClass({
 
 var ChatLine = React.createClass({
   render: function() {
-    var user = this.props.appState.users[this.props.message.userId];
+    var user = this.props.appState.users[this.props.chat.userId];
 
     return (
       <div className="chat-line-view">
         <span className="name">{ user.name }: </span>
-        <span className="message">{ this.props.message.text }</span>
+        <span className="chat">{ this.props.chat.text }</span>
       </div>
     );
   }
@@ -130,27 +129,22 @@ var query = getQueryParams(document.location.search);
 // Application state management
 //
 
-// var app,
-var appModel,
+var app,
+    appModel,
     currentUserId = query['userId'] || 1;
 
 function update(mutator) {
-  var newState = mutator(appModel.get());
-  appModel.set(newState);
+  // single point of change - yagni?
+  mutator();
 }
 
 function loadFixtureAppState() {
-  appModel.set({
+  var state = {
     rooms: {
       1: {
         id: 1,
         topic: "foo",
-        chats: [
-          { id: 1, userId: 1, text: "Hi there",    time: new Date(new Date() - (4 * 60 * 1000)) },
-          { id: 2, userId: 2, text: "Well hello",  time: new Date(new Date() - (3 * 60 * 1000)) },
-          { id: 3, userId: 1, text: "How are you", time: new Date(new Date() - (2 * 60 * 1000)) },
-          { id: 4, userId: 3, text: "Oh hey guys", time: new Date(new Date() - (1 * 60 * 1000)) },
-        ]
+        chats: {}
       }
     },
 
@@ -159,6 +153,19 @@ function loadFixtureAppState() {
       2: { id: 2, name: "Bob" },
       3: { id: 3, name: "Cecilia" }
     }
+  };
+
+  function addChat(obj) {
+    state.rooms[1].chats[obj.id] = obj;
+  }
+
+  addChat({ id: cuid(), userId: 1, text: "Hi there",    time: new Date(new Date() - (4 * 60 * 1000)) });
+  addChat({ id: cuid(), userId: 2, text: "Well hello",  time: new Date(new Date() - (4 * 60 * 1000)) });
+  addChat({ id: cuid(), userId: 1, text: "How are you", time: new Date(new Date() - (4 * 60 * 1000)) });
+  addChat({ id: cuid(), userId: 3, text: "Oh hey guys", time: new Date(new Date() - (4 * 60 * 1000)) });
+
+  update(function() {
+    appModel.set(state);
   });
 }
 
@@ -172,7 +179,7 @@ window.racer.ready(function(model) {
     loadFixtureAppState();
   }
 
-  var app = React.renderComponent(
+  app = React.renderComponent(
     <ChatApp />,
     document.getElementById('example')
   );
@@ -187,9 +194,9 @@ window.racer.ready(function(model) {
     localState: localState
   });
 
-  appModel.on('change', function(newState) {
-    app.setState({
-      appState: newState,
-    });
+  // We could be more finely-grained, but React's rendering is sufficiently fast and stable for now
+  appModel.on("all", "**", function () {
+    console.log("appModel event: ", arguments)
+    app.setState({ appState: appModel.get() });
   });
 });
