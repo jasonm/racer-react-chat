@@ -138,6 +138,9 @@ function update(mutator) {
   mutator();
 }
 
+/////////////////////////////////////////////
+// Fixture data to play with
+//
 function loadFixtureAppState() {
   var state = {
     rooms: {
