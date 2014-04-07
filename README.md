@@ -25,3 +25,8 @@ Running
 npm install
 node server.js
 ```
+
+TODO / Thoughts
+---------------
+
+Is it advantageous to rely on the ShareJS document version to inform `shouldComponentUpdate`?  If our state is purely defined in terms of ShareJS documents, then rendering should never get triggered except during state change, so this would not provide an improvement I think.  Neat idea though, and accessible as `appModel._getOrCreateShareDoc('chats', 'chatsdoc').version`  Maybe this becomes more interesting when both local and shared state change independently and we can short-circuit `shouldComponentUpdate` for some components.
