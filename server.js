@@ -99,9 +99,9 @@ var options = {
 };
 
 var port = process.env.PORT || 3000;
-var server = spdy.createServer(options, app).listen(port, function() {
-  console.log('Go to [SPDY] https://localhost:' + port);
-});
-// var server = http.createServer(app).listen(port, function() {
-//   console.log('Go to http://localhost:' + port);
+// var server = spdy.createServer(options, app).listen(port, function() {
+//   console.log('Go to [SPDY] https://localhost:' + port);
 // });
+var server = http.createServer(app).listen(port, function() {
+  console.log('Go to http://localhost:' + port);
+});

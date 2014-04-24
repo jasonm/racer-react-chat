@@ -33,3 +33,12 @@ TODO / Thoughts
 * Correctly use collections to allow multiple rooms and room listing
 * Add some sort of auth for users
 * Implement global-presence and room-presence
+
+Tech/learning experiments:
+
+* Support multiple chat rooms
+  _ react room-chooser
+  _ per-user state for which-room-am-i-viewing (per-user instead of unshared for persistence across browsers/devices)
+  _ per-user state in different collection where you can use racer-access to limit access?
+* Think about reffing models from a root document
+* Use reactive functions http://derbyjs.com/#reactive_functions

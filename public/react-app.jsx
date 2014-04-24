@@ -10,13 +10,15 @@ var ChatApp = React.createClass({
     }
 
     var room = this.state.model.at('rooms.1'),
-        currentUser = this.state.model.at('users.' + this.state.local.currentUserId);
+        currentUser = this.state.model.at('users.' + this.state.uid),
+        userState = this.state.model.at('userstate.' + this.state.uid
 
     return (
       <div className="chat-app-view">
         <header>
           Logged in as: { currentUser.get('name') }
         </header>
+        <RoomList 
         <ChatRoom room={room} currentUser={ currentUser } />
       </div>
     );
@@ -180,7 +182,10 @@ var app,
     currentUserId = query['userId'] || 1;
 
 window.racer.ready(function(model) {
+
   appModel = model.at('_page.chats');
+
+  window.m = appModel;
 
   if (!appModel.get()) {
     loadFixtureAppState();
@@ -193,9 +198,7 @@ window.racer.ready(function(model) {
 
   app.setState({
     model: appModel,
-    local: {
-      currentUserId: currentUserId
-    }
+    uid: currentUserId
   });
 
   // We could be more finely-grained, but React's rendering is sufficiently fast and stable for now
